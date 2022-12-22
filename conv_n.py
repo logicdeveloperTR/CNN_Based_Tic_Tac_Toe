@@ -9,27 +9,27 @@ class Game:
                     [-0.5, -0.5, -0.5],
                     [-0.5, -0.5, -0.5]]
     def control_game(self):
-        if self.table[:][0]==[1,1,1] or self.table[:][0]==[-1, -1, -1]:
+        if self.table[:][0]==[1,1,1] or self.table[:][0]==[-2, -2, -2]:
             return False
-        elif self.table[:][1]==[1,1,1] or self.table[:][1]==[-1, -1, -1]:
+        elif self.table[:][1]==[1,1,1] or self.table[:][1]==[-2, -2, -2]:
             return False
-        elif self.table[:][2]==[1,1,1] or self.table[:][2]==[-1, -1, -1]:
+        elif self.table[:][2]==[1,1,1] or self.table[:][2]==[-2, -2, -2]:
             return False
-        elif self.table[0][:]==[1,1,1] or self.table[0][:]==[-1, -1, -1]:
+        elif self.table[0][:]==[1,1,1] or self.table[0][:]==[-2, -2, -2]:
             return False
-        elif self.table[1][:]==[1,1,1] or self.table[1][:]==[-1, -1, -1]:
+        elif self.table[1][:]==[1,1,1] or self.table[1][:]==[-2, -2, -2]:
             return False
-        elif self.table[2][:]==[1,1,1] or self.table[2][:]==[-1, -1, -1]:
+        elif self.table[2][:]==[1,1,1] or self.table[2][:]==[-2, -2, -2]:
             return False
         elif [self.table[0][0],self.table[1][1], self.table[2][2]]==[1,1,1] or [self.table[0][0],self.table[1][1], self.table[2][2]]==[1,1,1]:
             return False
-        elif [self.table[0][2], self.table[1][1], self.table[2][0]]==[1,1,1] or [self.table[0][2], self.table[1][1], self.table[2][0]]==[-1, -1, -1]:
+        elif [self.table[0][2], self.table[1][1], self.table[2][0]]==[1,1,1] or [self.table[0][2], self.table[1][1], self.table[2][0]]==[-2, -2, -2]:
             return False
         return True
     def start_game(self, model):
-        max_index_x=-2
-        max_index_y=-2
-        max_=0
+        max_index_x=0
+        max_index_y=0
+        max_=-100
         while self.control_game():
             x=0
             y=0
@@ -50,8 +50,9 @@ class Game:
                     x=0
                     y=y+1
                 self.turn=1
-                self.table[max_index_y][max_index_x]=1
-                max_=0
+                if max_!=-100:
+                    self.table[max_index_y][max_index_x]=1
+                max_=-100
             else:
                 x=int(input())
                 self.table[int(x/3)][x%3]=-2
@@ -93,7 +94,6 @@ outputs=np.array([[x[-1]] for x in data]).reshape(len(data),1)
 inputs=np.array([x[:-1] for x in data]).reshape(len(data),3,3)
 X_train, X_test, y_train, y_test=train_test_split(inputs, outputs, test_size=0.2, random_state=42)
 X_test, X_val, y_test, y_val=train_test_split(X_test, y_test, test_size=0.5, random_state=42)
-print("d")
 
 model=tf.keras.models.Sequential()
 model.add(tf.keras.layers.Conv2D(
