@@ -2,6 +2,8 @@ import tensorflow as tf
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+
 class Game:
     def __init__(self):
         self.turn=0
@@ -21,7 +23,7 @@ class Game:
             return False
         elif self.table[2][:]==[1,1,1] or self.table[2][:]==[-2, -2, -2]:
             return False
-        elif [self.table[0][0],self.table[1][1], self.table[2][2]]==[1,1,1] or [self.table[0][0],self.table[1][1], self.table[2][2]]==[1,1,1]:
+        elif [self.table[0][0],self.table[1][1], self.table[2][2]]==[1,1,1] or [self.table[0][0],self.table[1][1], self.table[2][2]]==[-2,-2,-2]:
             return False
         elif [self.table[0][2], self.table[1][1], self.table[2][0]]==[1,1,1] or [self.table[0][2], self.table[1][1], self.table[2][0]]==[-2, -2, -2]:
             return False
@@ -31,8 +33,7 @@ class Game:
         max_index_y=0
         max_=-100
         while self.control_game():
-            x=0
-            y=0
+            x,y=0,0
             d=np.array([x for x in self.table])
             d=d.astype(float)
             if self.turn==0:
@@ -134,7 +135,6 @@ model.add(tf.keras.layers.Conv2D(kernel_size=(1,1),
                                  ))
 
 model.add(tf.keras.layers.Flatten())
-
 model.add(tf.keras.layers.Dense(1, activation="tanh"))
 
 model.compile(optimizer="adam", 
@@ -143,6 +143,12 @@ model.compile(optimizer="adam",
 model.summary()
 inputs=inputs.astype(float)
 outputs=outputs.astype(float)
-model.fit(epochs=32, x=inputs, y=outputs)
+results=model.fit(epochs=32, x=inputs, y=outputs)
 print(model.predict(inputs[0].reshape(1, 3, 3)))
+plt.plot(results.history['loss'], label="loss")
+plt.plot(results.history['accuracy'], label="accuracy")
+plt.xlabel("Epochs")
+plt.ylabel("Loss/Accuracy")
+plt.legend()
+plt.show()
 Game().start_game(model)
