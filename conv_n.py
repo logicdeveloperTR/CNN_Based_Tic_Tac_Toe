@@ -154,7 +154,7 @@ model.compile(optimizer="adam",
 model.summary()
 inputs=inputs.astype(float)
 outputs=outputs.astype(float)
-results=model.fit(epochs=50, x=inputs, y=outputs)
+results=model.fit(epochs=32, x=inputs, y=outputs)
 print(model.predict(inputs[0].reshape(1, 3, 3)))
 plt.plot(results.history['loss'], label="loss")
 plt.plot(results.history['accuracy'], label="accuracy")
