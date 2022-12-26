@@ -134,7 +134,7 @@ model.add(tf.keras.layers.Conv2D(
                                  activation="tanh",
                                  kernel_initializer="he_uniform"
                                  ))
-model.add(tf.keras.layers.Conv2D(kernel_size=(2,2),
+model.add(tf.keras.layers.Conv2D(kernel_size=(1,1),
                                  padding="same",
                                  filters=7,
                                  activation="tanh",
